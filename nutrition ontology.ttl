@@ -1,0 +1,2312 @@
+@prefix : <http://www.semanticweb.org/aseeng/ontologies/2020/1/untitled-ontology-14#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix swrl: <http://www.w3.org/2003/11/swrl#> .
+@prefix vann: <https://www.vocab.org/vann/#> .
+@prefix swrla: <http://swrl.stanford.edu/ontologies/3.3/swrla.owl#> .
+@prefix swrlb: <http://www.w3.org/2003/11/swrlb#> .
+@prefix nutritionOntology: <http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#> .
+@prefix cpannotationschema: <http://www.ontologydesignpatterns.org/schemas/cpannotationschema.owl#> .
+@base <http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology> .
+
+<http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology> rdf:type owl:Ontology ;
+                                                                         owl:imports <http://www.ontologydesignpatterns.org/cp/owl/list.owl> ;
+                                                                         dc:creator "Alessandro Marrazzo" ;
+                                                                         dc:date "" ;
+                                                                         dc:description "Ontologia per la rappresentazione e descrizione di entità relative agli integratori alimentari, sportivi e non e i relativi contenuti nutrizionali" ;
+                                                                         dc:title "Nutrition Ontology" ;
+                                                                         nutritionOntology:preferredNamespacePrefix "no" ;
+                                                                         nutritionOntology:preferredNamespaceURI "http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#" ;
+                                                                         rdfs:label "Nutrition Ontology" .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://purl.org/dc/elements/1.1/creator
+dc:creator rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/elements/1.1/date
+dc:date rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/elements/1.1/description
+dc:description rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/elements/1.1/title
+dc:title rdf:type owl:AnnotationProperty .
+
+
+###  http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled
+swrla:isRuleEnabled rdf:type owl:AnnotationProperty .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#preferredNamespacePrefix
+nutritionOntology:preferredNamespacePrefix rdf:type owl:AnnotationProperty .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#preferredNamespaceURI
+nutritionOntology:preferredNamespaceURI rdf:type owl:AnnotationProperty .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#vann:preferredNamespacePrefix
+nutritionOntology:vann:preferredNamespacePrefix rdf:type owl:AnnotationProperty .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#vann:preferredNamespaceUri
+nutritionOntology:vann:preferredNamespaceUri rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.ontologydesignpatterns.org/cp/owl/bag.owl#hasItem
+<http://www.ontologydesignpatterns.org/cp/owl/bag.owl#hasItem> rdf:type owl:ObjectProperty .
+
+
+###  http://www.ontologydesignpatterns.org/cp/owl/bag.owl#itemOf
+<http://www.ontologydesignpatterns.org/cp/owl/bag.owl#itemOf> rdf:type owl:ObjectProperty .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#containsNutrient
+nutritionOntology:containsNutrient rdf:type owl:ObjectProperty ;
+                                   rdfs:domain [ rdf:type owl:Class ;
+                                                 owl:unionOf ( nutritionOntology:Food
+                                                               nutritionOntology:Integrator
+                                                             )
+                                               ] ;
+                                   rdfs:range nutritionOntology:Nutrient ;
+                                   owl:propertyChainAxiom ( nutritionOntology:hasIngredient
+                                                            nutritionOntology:hasNutrient
+                                                          ) ;
+                                   rdfs:comment "Relation between a food and the nutrients that contains it"@en ;
+                                   rdfs:label "containsNutrient"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#elementOf
+nutritionOntology:elementOf rdf:type owl:ObjectProperty ;
+                            rdfs:subPropertyOf <http://www.ontologydesignpatterns.org/cp/owl/bag.owl#itemOf> ;
+                            owl:inverseOf nutritionOntology:hasElement ;
+                            rdfs:domain nutritionOntology:Nutrient ;
+                            rdfs:range nutritionOntology:Nutrient ;
+                            rdfs:comment "Relation between nutrient element and the Nutrient that contains it"@en ;
+                            rdfs:label "elementOf"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#hasCost
+nutritionOntology:hasCost rdf:type owl:ObjectProperty ,
+                                   owl:FunctionalProperty ;
+                          rdfs:domain [ rdf:type owl:Class ;
+                                        owl:unionOf ( nutritionOntology:Food
+                                                      nutritionOntology:Integrator
+                                                    )
+                                      ] ;
+                          rdfs:range nutritionOntology:Cost_range ;
+                          rdfs:comment "Relation between integrator or food with a cost range"@en ;
+                          rdfs:label "hasCost"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#hasElement
+nutritionOntology:hasElement rdf:type owl:ObjectProperty ;
+                             rdfs:subPropertyOf <http://www.ontologydesignpatterns.org/cp/owl/bag.owl#hasItem> ;
+                             rdfs:domain nutritionOntology:Nutrient ;
+                             rdfs:range nutritionOntology:Nutrient ;
+                             rdfs:comment "Relation between Nutrient and its nutrient element"@en ;
+                             rdfs:label "hasElement"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#hasIngredient
+nutritionOntology:hasIngredient rdf:type owl:ObjectProperty ;
+                                rdfs:subPropertyOf <http://www.ontologydesignpatterns.org/cp/owl/bag.owl#hasItem> ;
+                                owl:inverseOf nutritionOntology:ingredientOf ;
+                                rdf:type owl:IrreflexiveProperty ;
+                                rdfs:domain [ rdf:type owl:Class ;
+                                              owl:unionOf ( nutritionOntology:Food
+                                                            nutritionOntology:Integrator
+                                                          )
+                                            ] ;
+                                rdfs:range nutritionOntology:Ingredient ;
+                                rdfs:comment "Relation between food and its ingredients"@en ;
+                                rdfs:label "hasIngredient"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#hasNutrient
+nutritionOntology:hasNutrient rdf:type owl:ObjectProperty ;
+                              rdfs:subPropertyOf <http://www.ontologydesignpatterns.org/cp/owl/bag.owl#hasItem> ;
+                              owl:inverseOf nutritionOntology:nutrientOf ;
+                              rdfs:domain [ rdf:type owl:Class ;
+                                            owl:unionOf ( nutritionOntology:Food
+                                                          nutritionOntology:Integrator
+                                                        )
+                                          ] ;
+                              rdfs:range nutritionOntology:Nutrient ;
+                              rdfs:comment "Relation between food or integrator and its nutrient"@en ;
+                              rdfs:label "hasNutrient"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#ingredientOf
+nutritionOntology:ingredientOf rdf:type owl:ObjectProperty ;
+                               rdfs:subPropertyOf <http://www.ontologydesignpatterns.org/cp/owl/bag.owl#itemOf> ;
+                               rdf:type owl:IrreflexiveProperty ;
+                               rdfs:domain nutritionOntology:Ingredient ;
+                               rdfs:range [ rdf:type owl:Class ;
+                                            owl:unionOf ( nutritionOntology:Food
+                                                          nutritionOntology:Integrator
+                                                        )
+                                          ] ;
+                               rdfs:comment "Relation between ingredient and food that contains it"@en ;
+                               rdfs:label "ingredientOf"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#nutrientOf
+nutritionOntology:nutrientOf rdf:type owl:ObjectProperty ;
+                             rdfs:subPropertyOf <http://www.ontologydesignpatterns.org/cp/owl/bag.owl#itemOf> ;
+                             rdfs:domain nutritionOntology:Nutrient ;
+                             rdfs:range [ rdf:type owl:Class ;
+                                          owl:unionOf ( nutritionOntology:Food
+                                                        nutritionOntology:Integrator
+                                                      )
+                                        ] ;
+                             rdfs:comment "Relation between a nutrient and the food or integrator that contains it"@en ;
+                             rdfs:label "nutrientOf"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#relatedTo
+nutritionOntology:relatedTo rdf:type owl:ObjectProperty ,
+                                     owl:IrreflexiveProperty ;
+                            rdfs:domain nutritionOntology:Integrator ;
+                            rdfs:range [ rdf:type owl:Class ;
+                                         owl:unionOf ( nutritionOntology:Food
+                                                       nutritionOntology:Integrator
+                                                     )
+                                       ] ;
+                            rdfs:comment "Relation between integrator and one or more suggest integrator related to the first"@en ;
+                            rdfs:label "relatedTo"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#takeWith
+nutritionOntology:takeWith rdf:type owl:ObjectProperty ,
+                                    owl:AsymmetricProperty ,
+                                    owl:IrreflexiveProperty ;
+                           rdfs:domain nutritionOntology:Integrator ;
+                           rdfs:range [ rdf:type owl:Class ;
+                                        owl:unionOf ( nutritionOntology:Food
+                                                      nutritionOntology:Integrator
+                                                    )
+                                      ] ;
+                           rdfs:comment "Relation between integrators and food used for the assumption"@en ;
+                           rdfs:label "takeWith"@en .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#activationTime
+nutritionOntology:activationTime rdf:type owl:DatatypeProperty ;
+                                 rdfs:subPropertyOf owl:topDataProperty ;
+                                 rdfs:domain nutritionOntology:Integrator ;
+                                 rdfs:range xsd:integer ;
+                                 rdfs:comment "Start of effect in minute"@en ;
+                                 rdfs:label "activationTime"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#assumption
+nutritionOntology:assumption rdf:type owl:DatatypeProperty ;
+                             rdfs:subPropertyOf owl:topDataProperty ;
+                             rdfs:comment "Time hiring advice"@en ;
+                             rdfs:label "assumption"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#baseUnity
+nutritionOntology:baseUnity rdf:type owl:DatatypeProperty ;
+                            rdfs:domain [ rdf:type owl:Class ;
+                                          owl:unionOf ( nutritionOntology:Complex_carbohydrates
+                                                        nutritionOntology:Simple_carbohydrates
+                                                      )
+                                        ] ;
+                            rdfs:range xsd:integer ;
+                            rdfs:comment "Basic units contained in the carbohydrate structure"@en ;
+                            rdfs:label "baseUnity"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#calories
+nutritionOntology:calories rdf:type owl:DatatypeProperty ;
+                           rdfs:domain [ rdf:type owl:Class ;
+                                         owl:unionOf ( nutritionOntology:Food
+                                                       nutritionOntology:Integrator
+                                                     )
+                                       ] ;
+                           rdfs:range xsd:integer ;
+                           rdfs:comment "Calorie content of Food or Integrator"@en ;
+                           rdfs:label "calories"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#carboQuantity
+nutritionOntology:carboQuantity rdf:type owl:DatatypeProperty ;
+                                rdfs:subPropertyOf nutritionOntology:nutrientQuantity ;
+                                rdfs:domain [ rdf:type owl:Class ;
+                                              owl:unionOf ( nutritionOntology:Food
+                                                            nutritionOntology:Integrator
+                                                          )
+                                            ] ;
+                                rdfs:range xsd:integer ;
+                                rdfs:comment "Carbohydrate quantity of food or integrator"@en ;
+                                rdfs:label "carboQuantity"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#consistence
+nutritionOntology:consistence rdf:type owl:DatatypeProperty ;
+                              rdfs:domain nutritionOntology:Food ;
+                              rdfs:range [ rdf:type rdfs:Datatype ;
+                                           owl:oneOf [ rdf:type rdf:List ;
+                                                       rdf:first "Liquid" ;
+                                                       rdf:rest [ rdf:type rdf:List ;
+                                                                  rdf:first "Solid" ;
+                                                                  rdf:rest rdf:nil
+                                                                ]
+                                                     ]
+                                         ] ;
+                              rdfs:comment "Consistence of Food"@en ;
+                              rdfs:label "consistence"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#cost
+nutritionOntology:cost rdf:type owl:DatatypeProperty ;
+                       rdfs:subPropertyOf owl:topDataProperty ;
+                       rdfs:domain [ rdf:type owl:Class ;
+                                     owl:unionOf ( nutritionOntology:Food
+                                                   nutritionOntology:Integrator
+                                                 )
+                                   ] ;
+                       rdfs:range xsd:decimal ;
+                       rdfs:comment "Cost of a Food or Integrator"@en ;
+                       rdfs:label "cost"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#dailyAssumption
+nutritionOntology:dailyAssumption rdf:type owl:DatatypeProperty ;
+                                  rdfs:subPropertyOf nutritionOntology:assumption ;
+                                  rdfs:domain nutritionOntology:Integrator ;
+                                  rdfs:range xsd:positiveInteger ;
+                                  rdfs:comment "Amount of daily intake"@en ;
+                                  rdfs:label "dailyAssumption"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#dietType
+nutritionOntology:dietType rdf:type owl:DatatypeProperty ;
+                           rdfs:subPropertyOf owl:topDataProperty ;
+                           rdfs:domain [ rdf:type owl:Class ;
+                                         owl:unionOf ( nutritionOntology:Food
+                                                       nutritionOntology:Integrator
+                                                     )
+                                       ] ;
+                           rdfs:range [ rdf:type rdfs:Datatype ;
+                                        owl:oneOf [ rdf:type rdf:List ;
+                                                    rdf:first "Carnivoro" ;
+                                                    rdf:rest [ rdf:type rdf:List ;
+                                                               rdf:first "Onnivoro" ;
+                                                               rdf:rest [ rdf:type rdf:List ;
+                                                                          rdf:first "Vegano" ;
+                                                                          rdf:rest [ rdf:type rdf:List ;
+                                                                                     rdf:first "Vegetariano" ;
+                                                                                     rdf:rest rdf:nil
+                                                                                   ]
+                                                                        ]
+                                                             ]
+                                                  ]
+                                      ] ;
+                           rdfs:comment "Types of power supply"@en ;
+                           rdfs:label "dietType"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#dose
+nutritionOntology:dose rdf:type owl:DatatypeProperty ;
+                       rdfs:subPropertyOf owl:topDataProperty ;
+                       rdfs:domain nutritionOntology:Integrator ;
+                       rdfs:range xsd:integer ;
+                       rdfs:comment "Quantity of Food or Integrator intake expressed in grams"@en ;
+                       rdfs:label "dose"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#enzymes
+nutritionOntology:enzymes rdf:type owl:DatatypeProperty ;
+                          rdfs:subPropertyOf owl:topDataProperty ;
+                          rdfs:domain [ rdf:type owl:Class ;
+                                        owl:unionOf ( nutritionOntology:Simple_protein
+                                                      nutritionOntology:conjugated_protein
+                                                    )
+                                      ] ;
+                          rdfs:range [ rdf:type rdfs:Datatype ;
+                                       owl:oneOf [ rdf:type rdf:List ;
+                                                   rdf:first "No" ;
+                                                   rdf:rest [ rdf:type rdf:List ;
+                                                              rdf:first "Yes" ;
+                                                              rdf:rest rdf:nil
+                                                            ]
+                                                 ]
+                                     ] ;
+                          rdfs:comment "presence of enzymes"@en ;
+                          rdfs:label "enzymes"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#fatQuantity
+nutritionOntology:fatQuantity rdf:type owl:DatatypeProperty ;
+                              rdfs:subPropertyOf nutritionOntology:nutrientQuantity ;
+                              rdfs:domain [ rdf:type owl:Class ;
+                                            owl:unionOf ( nutritionOntology:Food
+                                                          nutritionOntology:Integrator
+                                                        )
+                                          ] ;
+                              rdfs:range xsd:integer ;
+                              rdfs:comment "Fat quantity of food or integrator"@en ;
+                              rdfs:label "fatQuantity"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#fatType
+nutritionOntology:fatType rdf:type owl:DatatypeProperty ;
+                          rdfs:subPropertyOf owl:topDataProperty ;
+                          rdfs:domain nutritionOntology:Fats ;
+                          rdfs:range xsd:string .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#hiringPeriod
+nutritionOntology:hiringPeriod rdf:type owl:DatatypeProperty ;
+                               rdfs:subPropertyOf nutritionOntology:assumption ;
+                               rdfs:domain nutritionOntology:Integrator ;
+                               rdfs:range xsd:positiveInteger ;
+                               rdfs:comment "Length of hiring period in days"@en ;
+                               rdfs:label "hiringPeriod"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#nutrientQuantity
+nutritionOntology:nutrientQuantity rdf:type owl:DatatypeProperty ;
+                                   rdfs:subPropertyOf owl:topDataProperty ;
+                                   rdfs:range xsd:integer ;
+                                   rdfs:comment "quantitativo di nutriente espresso in grammi" ;
+                                   rdfs:label "nutrientQuantity" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#proteinQuantity
+nutritionOntology:proteinQuantity rdf:type owl:DatatypeProperty ;
+                                  rdfs:subPropertyOf nutritionOntology:nutrientQuantity ;
+                                  rdfs:domain [ rdf:type owl:Class ;
+                                                owl:unionOf ( nutritionOntology:Food
+                                                              nutritionOntology:Integrator
+                                                            )
+                                              ] ;
+                                  rdfs:range xsd:integer ;
+                                  rdfs:comment "Protein quantity of food or integrator"@en ;
+                                  rdfs:label "proteinQuantity"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#solubility
+nutritionOntology:solubility rdf:type owl:DatatypeProperty ;
+                             rdfs:domain [ rdf:type owl:Class ;
+                                           owl:unionOf ( nutritionOntology:Hydrosolubil
+                                                         nutritionOntology:Liposolubil
+                                                       )
+                                         ] .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#synthesizability
+nutritionOntology:synthesizability rdf:type owl:DatatypeProperty ;
+                                   rdfs:domain nutritionOntology:Aminoacids ;
+                                   rdfs:range [ rdf:type rdfs:Datatype ;
+                                                owl:oneOf [ rdf:type rdf:List ;
+                                                            rdf:first "No" ;
+                                                            rdf:rest [ rdf:type rdf:List ;
+                                                                       rdf:first "Yes" ;
+                                                                       rdf:rest rdf:nil
+                                                                     ]
+                                                          ]
+                                              ] ;
+                                   rdfs:label "synthesizability"@en ,
+                                              "synthesizability of amminoacid"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#weight
+nutritionOntology:weight rdf:type owl:DatatypeProperty ;
+                         rdfs:domain [ rdf:type owl:Class ;
+                                       owl:unionOf ( nutritionOntology:Food
+                                                     nutritionOntology:Integrator
+                                                   )
+                                     ] ;
+                         rdfs:range xsd:decimal ;
+                         rdfs:comment "weight of the product in grams of liters"@en ;
+                         rdfs:label "weight"@en .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://dbpedia.org/ontology/Beverage
+<http://dbpedia.org/ontology/Beverage> rdf:type owl:Class ;
+                                       owl:equivalentClass nutritionOntology:Beverage .
+
+
+###  http://dbpedia.org/ontology/Protein
+<http://dbpedia.org/ontology/Protein> rdf:type owl:Class ;
+                                      owl:equivalentClass nutritionOntology:Proteins .
+
+
+###  http://www.ontologydesignpatterns.org/cp/owl/list.owl#ListItem
+<http://www.ontologydesignpatterns.org/cp/owl/list.owl#ListItem> rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Aminoacids
+nutritionOntology:Aminoacids rdf:type owl:Class ;
+                             rdfs:subClassOf nutritionOntology:Nutrient ;
+                             rdfs:label "Aminoacids"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Beef_protein
+nutritionOntology:Beef_protein rdf:type owl:Class ;
+                               owl:equivalentClass [ owl:intersectionOf ( nutritionOntology:Protein_supplement
+                                                                          [ rdf:type owl:Restriction ;
+                                                                            owl:onProperty nutritionOntology:dietType ;
+                                                                            owl:hasValue "Carnivoro"
+                                                                          ]
+                                                                        ) ;
+                                                     rdf:type owl:Class
+                                                   ] ;
+                               rdfs:subClassOf nutritionOntology:Protein_supplement ;
+                               rdfs:label "Beef_protein"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Beverage
+nutritionOntology:Beverage rdf:type owl:Class ;
+                           owl:equivalentClass [ owl:intersectionOf ( nutritionOntology:LiquidConsistency
+                                                                      [ rdf:type owl:Restriction ;
+                                                                        owl:onProperty nutritionOntology:fatQuantity ;
+                                                                        owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                             owl:onDatatype xsd:integer ;
+                                                                                             owl:withRestrictions ( [ xsd:maxExclusive 20
+                                                                                                                    ]
+                                                                                                                  )
+                                                                                           ]
+                                                                      ]
+                                                                    ) ;
+                                                 rdf:type owl:Class
+                                               ] ;
+                           rdfs:subClassOf nutritionOntology:LiquidConsistency ;
+                           rdfs:label "Beverage"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Carbohydrates
+nutritionOntology:Carbohydrates rdf:type owl:Class ;
+                                rdfs:subClassOf nutritionOntology:Nutrient ;
+                                rdfs:label "Carbohydrates"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Complex_carbohydrates
+nutritionOntology:Complex_carbohydrates rdf:type owl:Class ;
+                                        owl:equivalentClass [ rdf:type owl:Class ;
+                                                              owl:unionOf ( [ owl:intersectionOf ( nutritionOntology:Carbohydrates
+                                                                                                   [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                                                                                            owl:onProperty nutritionOntology:hasElement ;
+                                                                                                                            owl:someValuesFrom nutritionOntology:Simple_carbohydrates
+                                                                                                                          ]
+                                                                                                                          [ rdf:type owl:Restriction ;
+                                                                                                                            owl:onProperty nutritionOntology:baseUnity ;
+                                                                                                                            owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                                                                                 owl:onDatatype xsd:integer ;
+                                                                                                                                                 owl:withRestrictions ( [ xsd:minExclusive 2
+                                                                                                                                                                        ]
+                                                                                                                                                                      )
+                                                                                                                                               ]
+                                                                                                                          ]
+                                                                                                                        ) ;
+                                                                                                     rdf:type owl:Class
+                                                                                                   ]
+                                                                                                 ) ;
+                                                                              rdf:type owl:Class
+                                                                            ]
+                                                                            [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                                                                     owl:onProperty nutritionOntology:hasElement ;
+                                                                                                     owl:someValuesFrom nutritionOntology:Complex_carbohydrates
+                                                                                                   ]
+                                                                                                   [ rdf:type owl:Restriction ;
+                                                                                                     owl:onProperty nutritionOntology:baseUnity ;
+                                                                                                     owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                                                          owl:onDatatype xsd:integer ;
+                                                                                                                          owl:withRestrictions ( [ xsd:minExclusive 2
+                                                                                                                                                 ]
+                                                                                                                                               )
+                                                                                                                        ]
+                                                                                                   ]
+                                                                                                 ) ;
+                                                                              rdf:type owl:Class
+                                                                            ]
+                                                                          )
+                                                            ] ;
+                                        rdfs:subClassOf nutritionOntology:Carbohydrates ;
+                                        owl:disjointWith nutritionOntology:Simple_carbohydrates ;
+                                        rdfs:label "Complex carbohydrates"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Cost_range
+nutritionOntology:Cost_range rdf:type owl:Class ;
+                             owl:equivalentClass [ rdf:type owl:Class ;
+                                                   owl:oneOf ( nutritionOntology:FasciaDiPrezzoAlta
+                                                               nutritionOntology:FasciaDiPrezzoBassa
+                                                               nutritionOntology:FasciaDiPrezzoMedia
+                                                             )
+                                                 ] ;
+                             rdfs:label "Cost_range"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Creatine
+nutritionOntology:Creatine rdf:type owl:Class ;
+                           owl:equivalentClass [ owl:intersectionOf ( nutritionOntology:carboNeeded
+                                                                      [ rdf:type owl:Restriction ;
+                                                                        owl:onProperty nutritionOntology:hasNutrient ;
+                                                                        owl:hasValue nutritionOntology:Creatina
+                                                                      ]
+                                                                    ) ;
+                                                 rdf:type owl:Class
+                                               ] ;
+                           rdfs:subClassOf nutritionOntology:carboNeeded ;
+                           rdfs:label "Creatine"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Essential_aminoacids
+nutritionOntology:Essential_aminoacids rdf:type owl:Class ;
+                                       rdfs:subClassOf nutritionOntology:Aminoacids ;
+                                       owl:disjointWith nutritionOntology:Non-essential_aminoacids ;
+                                       rdfs:label "Essential_aminoacids"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Fast-relese_Carbohydrates
+nutritionOntology:Fast-relese_Carbohydrates rdf:type owl:Class ;
+                                            owl:equivalentClass [ owl:intersectionOf ( nutritionOntology:carboBased
+                                                                                       [ rdf:type owl:Restriction ;
+                                                                                         owl:onProperty nutritionOntology:activationTime ;
+                                                                                         owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                                              owl:onDatatype xsd:integer ;
+                                                                                                              owl:withRestrictions ( [ xsd:maxExclusive 30
+                                                                                                                                     ]
+                                                                                                                                   )
+                                                                                                            ]
+                                                                                       ]
+                                                                                     ) ;
+                                                                  rdf:type owl:Class
+                                                                ] ;
+                                            rdfs:subClassOf nutritionOntology:carboBased ;
+                                            owl:disjointWith nutritionOntology:Slow-relese_Carbohydrates ;
+                                            rdfs:label "Fast-relese Carbohydrates"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Fats
+nutritionOntology:Fats rdf:type owl:Class ;
+                       rdfs:subClassOf nutritionOntology:Nutrient ;
+                       rdfs:label "Fats"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Food
+nutritionOntology:Food rdf:type owl:Class ;
+                       rdfs:label "Food"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Food_supplement
+nutritionOntology:Food_supplement rdf:type owl:Class ;
+                                  rdfs:subClassOf nutritionOntology:Integrator ;
+                                  rdfs:label "Food_supplement"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Gluten-free_protein
+nutritionOntology:Gluten-free_protein rdf:type owl:Class ;
+                                      owl:equivalentClass [ owl:intersectionOf ( nutritionOntology:Protein_supplement
+                                                                                 [ rdf:type owl:Class ;
+                                                                                   owl:complementOf [ rdf:type owl:Restriction ;
+                                                                                                      owl:onProperty nutritionOntology:hasNutrient ;
+                                                                                                      owl:hasValue nutritionOntology:Glutine
+                                                                                                    ]
+                                                                                 ]
+                                                                               ) ;
+                                                            rdf:type owl:Class
+                                                          ] ;
+                                      rdfs:subClassOf nutritionOntology:Protein_supplement ;
+                                      rdfs:label "Gluten-free protein"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Hydrosolubil
+nutritionOntology:Hydrosolubil rdf:type owl:Class ;
+                               rdfs:subClassOf nutritionOntology:Vitamins ;
+                               owl:disjointWith nutritionOntology:Liposolubil ;
+                               rdfs:label "Hydrosolubil"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Ingredient
+nutritionOntology:Ingredient rdf:type owl:Class ;
+                             owl:equivalentClass [ rdf:type owl:Class ;
+                                                   owl:unionOf ( nutritionOntology:Food
+                                                                 nutritionOntology:Nutrient
+                                                               )
+                                                 ] ;
+                             rdfs:subClassOf <http://www.ontologydesignpatterns.org/cp/owl/bag.owl#Item> ;
+                             rdfs:label "Ingredient"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Integrator
+nutritionOntology:Integrator rdf:type owl:Class ;
+                             rdfs:label "Integrator"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Lactose-free_protein
+nutritionOntology:Lactose-free_protein rdf:type owl:Class ;
+                                       owl:equivalentClass [ owl:intersectionOf ( nutritionOntology:Protein_supplement
+                                                                                  [ rdf:type owl:Class ;
+                                                                                    owl:complementOf [ rdf:type owl:Restriction ;
+                                                                                                       owl:onProperty nutritionOntology:hasNutrient ;
+                                                                                                       owl:hasValue nutritionOntology:Lattosio
+                                                                                                     ]
+                                                                                  ]
+                                                                                ) ;
+                                                             rdf:type owl:Class
+                                                           ] ;
+                                       rdfs:subClassOf nutritionOntology:Protein_supplement ;
+                                       owl:disjointWith nutritionOntology:Milk_protein ;
+                                       rdfs:label "Lactose-free protein"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Liposolubil
+nutritionOntology:Liposolubil rdf:type owl:Class ;
+                              rdfs:subClassOf nutritionOntology:Vitamins ;
+                              rdfs:label "Liposolubil"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#LiquidConsistency
+nutritionOntology:LiquidConsistency rdf:type owl:Class ;
+                                    rdfs:subClassOf nutritionOntology:Food .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Milk_protein
+nutritionOntology:Milk_protein rdf:type owl:Class ;
+                               owl:equivalentClass [ owl:intersectionOf ( nutritionOntology:Protein_supplement
+                                                                          [ rdf:type owl:Restriction ;
+                                                                            owl:onProperty nutritionOntology:hasNutrient ;
+                                                                            owl:hasValue nutritionOntology:Lattosio
+                                                                          ]
+                                                                        ) ;
+                                                     rdf:type owl:Class
+                                                   ] ;
+                               rdfs:subClassOf nutritionOntology:Protein_supplement ;
+                               rdfs:label "Milk_protein"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Multivitamins
+nutritionOntology:Multivitamins rdf:type owl:Class ;
+                                owl:equivalentClass [ rdf:type owl:Class ;
+                                                      owl:unionOf ( [ owl:intersectionOf ( nutritionOntology:Food_supplement
+                                                                                           [ rdf:type owl:Restriction ;
+                                                                                             owl:onProperty nutritionOntology:hasNutrient ;
+                                                                                             owl:someValuesFrom nutritionOntology:Hydrosolubil
+                                                                                           ]
+                                                                                         ) ;
+                                                                      rdf:type owl:Class
+                                                                    ]
+                                                                    [ rdf:type owl:Restriction ;
+                                                                      owl:onProperty nutritionOntology:hasNutrient ;
+                                                                      owl:someValuesFrom nutritionOntology:Liposolubil
+                                                                    ]
+                                                                  )
+                                                    ] ;
+                                rdfs:subClassOf nutritionOntology:Food_supplement ;
+                                rdfs:label "Multivitamins"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Non-essential_aminoacids
+nutritionOntology:Non-essential_aminoacids rdf:type owl:Class ;
+                                           rdfs:subClassOf nutritionOntology:Aminoacids ;
+                                           rdfs:label "Non-essential aminoacids"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Nutrient
+nutritionOntology:Nutrient rdf:type owl:Class ;
+                           rdfs:label "Nutrient"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Oil
+nutritionOntology:Oil rdf:type owl:Class ;
+                      owl:equivalentClass [ owl:intersectionOf ( nutritionOntology:LiquidConsistency
+                                                                 [ rdf:type owl:Restriction ;
+                                                                   owl:onProperty nutritionOntology:fatQuantity ;
+                                                                   owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                        owl:onDatatype xsd:integer ;
+                                                                                        owl:withRestrictions ( [ xsd:minExclusive 20
+                                                                                                               ]
+                                                                                                             )
+                                                                                      ]
+                                                                 ]
+                                                               ) ;
+                                            rdf:type owl:Class
+                                          ] ;
+                      rdfs:subClassOf nutritionOntology:LiquidConsistency ;
+                      rdfs:label "Oil"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Omega_3
+nutritionOntology:Omega_3 rdf:type owl:Class ;
+                          rdfs:subClassOf nutritionOntology:Food_supplement ;
+                          rdfs:label "Omega_3"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Powder_aminoacids
+nutritionOntology:Powder_aminoacids rdf:type owl:Class ;
+                                    owl:equivalentClass [ owl:intersectionOf ( nutritionOntology:carboNeeded
+                                                                               [ rdf:type owl:Restriction ;
+                                                                                 owl:onProperty nutritionOntology:hasNutrient ;
+                                                                                 owl:someValuesFrom nutritionOntology:Aminoacids
+                                                                               ]
+                                                                             ) ;
+                                                          rdf:type owl:Class
+                                                        ] ;
+                                    rdfs:subClassOf nutritionOntology:carboNeeded ;
+                                    rdfs:label "Powder aminoacids"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Protein_snacks
+nutritionOntology:Protein_snacks rdf:type owl:Class ;
+                                 owl:equivalentClass [ owl:intersectionOf ( nutritionOntology:SolidConsistency
+                                                                            [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty nutritionOntology:fatQuantity ;
+                                                                              owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                                   owl:onDatatype xsd:integer ;
+                                                                                                   owl:withRestrictions ( [ xsd:maxExclusive 20
+                                                                                                                          ]
+                                                                                                                        )
+                                                                                                 ]
+                                                                            ]
+                                                                            [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty nutritionOntology:proteinQuantity ;
+                                                                              owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                                   owl:onDatatype xsd:integer ;
+                                                                                                   owl:withRestrictions ( [ xsd:minExclusive 25
+                                                                                                                          ]
+                                                                                                                        )
+                                                                                                 ]
+                                                                            ]
+                                                                          ) ;
+                                                       rdf:type owl:Class
+                                                     ] ;
+                                 rdfs:subClassOf nutritionOntology:SolidConsistency ;
+                                 rdfs:label "Protein_snacks"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Protein_supplement
+nutritionOntology:Protein_supplement rdf:type owl:Class ;
+                                     owl:equivalentClass [ owl:intersectionOf ( nutritionOntology:Integrator
+                                                                                [ rdf:type owl:Restriction ;
+                                                                                  owl:onProperty nutritionOntology:carboQuantity ;
+                                                                                  owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                                       owl:onDatatype xsd:integer ;
+                                                                                                       owl:withRestrictions ( [ xsd:maxExclusive 5
+                                                                                                                              ]
+                                                                                                                            )
+                                                                                                     ]
+                                                                                ]
+                                                                                [ rdf:type owl:Restriction ;
+                                                                                  owl:onProperty nutritionOntology:proteinQuantity ;
+                                                                                  owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                                       owl:onDatatype xsd:integer ;
+                                                                                                       owl:withRestrictions ( [ xsd:minExclusive 13
+                                                                                                                              ]
+                                                                                                                            )
+                                                                                                     ]
+                                                                                ]
+                                                                              ) ;
+                                                           rdf:type owl:Class
+                                                         ] ;
+                                     rdfs:subClassOf nutritionOntology:Integrator ;
+                                     rdfs:label "Protein_supplement"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Proteins
+nutritionOntology:Proteins rdf:type owl:Class ;
+                           owl:equivalentClass [ owl:intersectionOf ( nutritionOntology:Nutrient
+                                                                      [ rdf:type owl:Restriction ;
+                                                                        owl:onProperty nutritionOntology:hasElement ;
+                                                                        owl:someValuesFrom nutritionOntology:Aminoacids
+                                                                      ]
+                                                                    ) ;
+                                                 rdf:type owl:Class
+                                               ] ;
+                           rdfs:subClassOf nutritionOntology:Nutrient ;
+                           rdfs:label "Proteins"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Simple_carbohydrates
+nutritionOntology:Simple_carbohydrates rdf:type owl:Class ;
+                                       rdfs:subClassOf nutritionOntology:Carbohydrates ;
+                                       rdfs:label "Simple carbohydrates"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Simple_protein
+nutritionOntology:Simple_protein rdf:type owl:Class ;
+                                 rdfs:subClassOf nutritionOntology:Proteins ;
+                                 owl:disjointWith nutritionOntology:conjugated_protein ;
+                                 rdfs:label "Simple_protein"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Slow-relese_Carbohydrates
+nutritionOntology:Slow-relese_Carbohydrates rdf:type owl:Class ;
+                                            owl:equivalentClass [ owl:intersectionOf ( nutritionOntology:carboBased
+                                                                                       [ rdf:type owl:Restriction ;
+                                                                                         owl:onProperty nutritionOntology:activationTime ;
+                                                                                         owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                                              owl:onDatatype xsd:integer ;
+                                                                                                              owl:withRestrictions ( [ xsd:minExclusive 30
+                                                                                                                                     ]
+                                                                                                                                   )
+                                                                                                            ]
+                                                                                       ]
+                                                                                     ) ;
+                                                                  rdf:type owl:Class
+                                                                ] ;
+                                            rdfs:subClassOf nutritionOntology:carboBased ;
+                                            rdfs:label "Slow-relese Carbohydrates"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#SolidConsistency
+nutritionOntology:SolidConsistency rdf:type owl:Class ;
+                                   rdfs:subClassOf nutritionOntology:Food .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Sport_supplement
+nutritionOntology:Sport_supplement rdf:type owl:Class ;
+                                   owl:equivalentClass [ rdf:type owl:Class ;
+                                                         owl:unionOf ( [ owl:intersectionOf ( nutritionOntology:Integrator
+                                                                                              [ rdf:type owl:Restriction ;
+                                                                                                owl:onProperty nutritionOntology:hasNutrient ;
+                                                                                                owl:someValuesFrom nutritionOntology:Carbohydrates
+                                                                                              ]
+                                                                                            ) ;
+                                                                         rdf:type owl:Class
+                                                                       ]
+                                                                       [ rdf:type owl:Restriction ;
+                                                                         owl:onProperty nutritionOntology:hasNutrient ;
+                                                                         owl:someValuesFrom nutritionOntology:Aminoacids
+                                                                       ]
+                                                                     )
+                                                       ] ;
+                                   rdfs:subClassOf nutritionOntology:Integrator ;
+                                   rdfs:label "Sport_supplement"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Vitamins
+nutritionOntology:Vitamins rdf:type owl:Class ;
+                           rdfs:subClassOf nutritionOntology:Nutrient ;
+                           rdfs:label "Vitamins"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Zero_calories_food
+nutritionOntology:Zero_calories_food rdf:type owl:Class ;
+                                     rdfs:subClassOf nutritionOntology:Food ;
+                                     rdfs:label "Zero_calories_food"@en .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#carboBased
+nutritionOntology:carboBased rdf:type owl:Class ;
+                             owl:equivalentClass [ owl:intersectionOf ( nutritionOntology:Sport_supplement
+                                                                        [ rdf:type owl:Restriction ;
+                                                                          owl:onProperty nutritionOntology:carboQuantity ;
+                                                                          owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                               owl:onDatatype xsd:integer ;
+                                                                                               owl:withRestrictions ( [ xsd:minExclusive 5
+                                                                                                                      ]
+                                                                                                                    )
+                                                                                             ]
+                                                                        ]
+                                                                      ) ;
+                                                   rdf:type owl:Class
+                                                 ] ;
+                             rdfs:subClassOf nutritionOntology:Sport_supplement .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#carboNeeded
+nutritionOntology:carboNeeded rdf:type owl:Class ;
+                              owl:equivalentClass [ owl:intersectionOf ( nutritionOntology:Sport_supplement
+                                                                         [ rdf:type owl:Restriction ;
+                                                                           owl:onProperty nutritionOntology:takeWith ;
+                                                                           owl:someValuesFrom nutritionOntology:carboBased
+                                                                         ]
+                                                                       ) ;
+                                                    rdf:type owl:Class
+                                                  ] ;
+                              rdfs:subClassOf nutritionOntology:Sport_supplement .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#conjugated_protein
+nutritionOntology:conjugated_protein rdf:type owl:Class ;
+                                     rdfs:subClassOf nutritionOntology:Proteins ;
+                                     rdfs:label "conjugated protein"@en .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Acidi_grassi_Essenziali
+nutritionOntology:Acidi_grassi_Essenziali rdf:type owl:NamedIndividual ;
+                                          nutritionOntology:fatType "essenziali" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Acidi_grassi_Idrogenati
+nutritionOntology:Acidi_grassi_Idrogenati rdf:type owl:NamedIndividual ;
+                                          nutritionOntology:fatType "idrogenati" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Acidi_grassi_Insaturi
+nutritionOntology:Acidi_grassi_Insaturi rdf:type owl:NamedIndividual ;
+                                        nutritionOntology:fatType "insaturi" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Acidi_grassi_Monoinsaturi
+nutritionOntology:Acidi_grassi_Monoinsaturi rdf:type owl:NamedIndividual ;
+                                            nutritionOntology:fatType "monoinsaturi" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Acidi_grassi_Polinsaturi
+nutritionOntology:Acidi_grassi_Polinsaturi rdf:type owl:NamedIndividual ;
+                                           nutritionOntology:fatType "polinsaturi" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Acidi_grassi_Saturi
+nutritionOntology:Acidi_grassi_Saturi rdf:type owl:NamedIndividual ;
+                                      nutritionOntology:fatType "saturi" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Acido_Aspartico
+nutritionOntology:Acido_Aspartico rdf:type owl:NamedIndividual ;
+                                  nutritionOntology:synthesizability "Yes" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Acqua
+nutritionOntology:Acqua rdf:type owl:NamedIndividual ;
+                        nutritionOntology:consistence "Liquid" ;
+                        nutritionOntology:fatQuantity 0 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Alanina
+nutritionOntology:Alanina rdf:type owl:NamedIndividual ;
+                          nutritionOntology:synthesizability "Yes" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Albume
+nutritionOntology:Albume rdf:type owl:NamedIndividual ;
+                         nutritionOntology:hasNutrient nutritionOntology:Albumina ;
+                         nutritionOntology:calories 52 ;
+                         nutritionOntology:consistence "Liquid" ;
+                         nutritionOntology:cost 2.99 ;
+                         nutritionOntology:dietType "Vegetariano" ;
+                         nutritionOntology:proteinQuantity 11 ;
+                         nutritionOntology:weight 0.5 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Albumina
+nutritionOntology:Albumina rdf:type owl:NamedIndividual ;
+                           nutritionOntology:hasElement nutritionOntology:Acido_Aspartico ,
+                                                        nutritionOntology:Alanina ,
+                                                        nutritionOntology:Fenilalanina ,
+                                                        nutritionOntology:Glicina ,
+                                                        nutritionOntology:Isoleucina ,
+                                                        nutritionOntology:Leucina ,
+                                                        nutritionOntology:Lisina ,
+                                                        nutritionOntology:Metionina ,
+                                                        nutritionOntology:Serina ,
+                                                        nutritionOntology:Treonina ,
+                                                        nutritionOntology:Triptofano ,
+                                                        nutritionOntology:Valina ;
+                           nutritionOntology:enzymes "No" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Amido
+nutritionOntology:Amido rdf:type owl:NamedIndividual ;
+                        nutritionOntology:hasElement nutritionOntology:Glucosio ;
+                        nutritionOntology:baseUnity 300 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Aminoacidi_a_catena_ramificata
+nutritionOntology:Aminoacidi_a_catena_ramificata rdf:type owl:NamedIndividual ;
+                                                 nutritionOntology:hasNutrient nutritionOntology:Isoleucina ,
+                                                                               nutritionOntology:Leucina ,
+                                                                               nutritionOntology:Valina ;
+                                                 nutritionOntology:relatedTo nutritionOntology:Destrosio ;
+                                                 nutritionOntology:takeWith nutritionOntology:Acqua ,
+                                                                            nutritionOntology:Vitargo ;
+                                                 nutritionOntology:assumption 1 ;
+                                                 nutritionOntology:cost 5.39 ;
+                                                 nutritionOntology:dose 5 ;
+                                                 nutritionOntology:weight 100 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Aminoacidi_essenziali_in_polvere
+nutritionOntology:Aminoacidi_essenziali_in_polvere rdf:type owl:NamedIndividual ;
+                                                   nutritionOntology:hasNutrient nutritionOntology:Fenilalanina ,
+                                                                                 nutritionOntology:Isoleucina ,
+                                                                                 nutritionOntology:Leucina ,
+                                                                                 nutritionOntology:Lisina ,
+                                                                                 nutritionOntology:Metionina ,
+                                                                                 nutritionOntology:Treonina ,
+                                                                                 nutritionOntology:Triptofano ,
+                                                                                 nutritionOntology:Valina ;
+                                                   nutritionOntology:relatedTo nutritionOntology:Destrosio ,
+                                                                               nutritionOntology:Proteine_del_siero_del_latte ;
+                                                   nutritionOntology:takeWith nutritionOntology:Acqua ,
+                                                                              nutritionOntology:Vitargo ;
+                                                   nutritionOntology:assumption 1 ;
+                                                   nutritionOntology:cost 11.99 ;
+                                                   nutritionOntology:dose 15 ;
+                                                   nutritionOntology:weight 100 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Anacardi
+nutritionOntology:Anacardi rdf:type owl:NamedIndividual ;
+                           nutritionOntology:hasNutrient nutritionOntology:Acidi_grassi_Monoinsaturi ,
+                                                         nutritionOntology:Acidi_grassi_Polinsaturi ,
+                                                         nutritionOntology:Acidi_grassi_Saturi ,
+                                                         nutritionOntology:Fibre ;
+                           nutritionOntology:calories 573 ;
+                           nutritionOntology:carboQuantity 18 ;
+                           nutritionOntology:consistence "Solid" ;
+                           nutritionOntology:cost 6.29 ;
+                           nutritionOntology:fatQuantity 48 ;
+                           nutritionOntology:proteinQuantity 18 ;
+                           nutritionOntology:weight 500 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Avena_istantanea
+nutritionOntology:Avena_istantanea rdf:type owl:NamedIndividual ;
+                                   nutritionOntology:hasNutrient nutritionOntology:Fibre ;
+                                   nutritionOntology:relatedTo nutritionOntology:Proteine_del_siero_del_latte ;
+                                   nutritionOntology:takeWith nutritionOntology:Acqua ;
+                                   nutritionOntology:activationTime 40 ;
+                                   nutritionOntology:calories 180 ;
+                                   nutritionOntology:carboQuantity 30 ;
+                                   nutritionOntology:cost 6.99 ;
+                                   nutritionOntology:dailyAssumption 3 ;
+                                   nutritionOntology:dietType "Vegano" ;
+                                   nutritionOntology:dose 50 ;
+                                   nutritionOntology:fatQuantity 4 ;
+                                   nutritionOntology:proteinQuantity 6 ;
+                                   nutritionOntology:weight 500 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Barretta_proteica_macro_munch
+nutritionOntology:Barretta_proteica_macro_munch rdf:type owl:NamedIndividual ;
+                                                nutritionOntology:calories 374 ;
+                                                nutritionOntology:carboQuantity 27 ;
+                                                nutritionOntology:consistence "Solid" ;
+                                                nutritionOntology:cost 1.34 ;
+                                                nutritionOntology:dietType "Vegano" ;
+                                                nutritionOntology:fatQuantity 14 ;
+                                                nutritionOntology:proteinQuantity 32 ;
+                                                nutritionOntology:weight 62 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Barretta_proteica_vegana
+nutritionOntology:Barretta_proteica_vegana rdf:type owl:NamedIndividual ;
+                                           nutritionOntology:calories 377 ;
+                                           nutritionOntology:carboQuantity 23 ;
+                                           nutritionOntology:consistence "Solid" ;
+                                           nutritionOntology:cost 2.99 ;
+                                           nutritionOntology:dietType "Vegano" ;
+                                           nutritionOntology:fatQuantity 14 ;
+                                           nutritionOntology:proteinQuantity 28 ;
+                                           nutritionOntology:weight 74 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Burro_di_Anacardi
+nutritionOntology:Burro_di_Anacardi rdf:type owl:NamedIndividual ;
+                                    nutritionOntology:hasIngredient nutritionOntology:Anacardi ;
+                                    nutritionOntology:consistence "Solid" ;
+                                    nutritionOntology:cost 13.99 ;
+                                    nutritionOntology:dietType "Vegano" ;
+                                    nutritionOntology:fatQuantity 48 ;
+                                    nutritionOntology:proteinQuantity 20 ;
+                                    nutritionOntology:weight 500 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Burro_di_Arachidi
+nutritionOntology:Burro_di_Arachidi rdf:type owl:NamedIndividual ;
+                                    nutritionOntology:hasNutrient nutritionOntology:Acidi_grassi_Monoinsaturi ,
+                                                                  nutritionOntology:Acidi_grassi_Polinsaturi ,
+                                                                  nutritionOntology:Acidi_grassi_Saturi ;
+                                    nutritionOntology:consistence "Solid" ;
+                                    nutritionOntology:cost 8.99 ;
+                                    nutritionOntology:dietType "Vegano" ;
+                                    nutritionOntology:fatQuantity 49 ;
+                                    nutritionOntology:proteinQuantity 28 ;
+                                    nutritionOntology:weight 1000 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Burro_di_Mandorle
+nutritionOntology:Burro_di_Mandorle rdf:type owl:NamedIndividual ;
+                                    nutritionOntology:hasNutrient nutritionOntology:Acidi_grassi_Saturi ;
+                                    nutritionOntology:consistence "Solid" ;
+                                    nutritionOntology:cost 12.99 ;
+                                    nutritionOntology:dietType "Vegano" ;
+                                    nutritionOntology:fatQuantity 55 ;
+                                    nutritionOntology:proteinQuantity 25 ;
+                                    nutritionOntology:weight 500 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Burro_di_Nocciole
+nutritionOntology:Burro_di_Nocciole rdf:type owl:NamedIndividual ;
+                                    nutritionOntology:hasIngredient nutritionOntology:Nocciole ;
+                                    nutritionOntology:consistence "Solid" ;
+                                    nutritionOntology:cost 15.49 ;
+                                    nutritionOntology:dietType "Vegano" ;
+                                    nutritionOntology:fatQuantity 61 ;
+                                    nutritionOntology:proteinQuantity 15 ;
+                                    nutritionOntology:weight 500 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Burro_di_Pistacchio
+nutritionOntology:Burro_di_Pistacchio rdf:type owl:NamedIndividual ;
+                                      nutritionOntology:hasNutrient nutritionOntology:Acidi_grassi_Saturi ;
+                                      nutritionOntology:consistence "Solid" ;
+                                      nutritionOntology:cost 18.89 ;
+                                      nutritionOntology:dietType "Vegano" ;
+                                      nutritionOntology:fatQuantity 48 ;
+                                      nutritionOntology:proteinQuantity 22 ;
+                                      nutritionOntology:weight 500 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Cellulosa
+nutritionOntology:Cellulosa rdf:type owl:NamedIndividual ;
+                            nutritionOntology:hasElement nutritionOntology:Glucosio ;
+                            nutritionOntology:baseUnity 300 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Chitina
+nutritionOntology:Chitina rdf:type owl:NamedIndividual ;
+                          nutritionOntology:hasElement nutritionOntology:Glucosio ;
+                          nutritionOntology:baseUnity 4 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Cocco
+nutritionOntology:Cocco rdf:type owl:NamedIndividual ;
+                        nutritionOntology:consistence "Solid" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Complesso_Multivitaminico_Completo
+nutritionOntology:Complesso_Multivitaminico_Completo rdf:type owl:NamedIndividual ,
+                                                              nutritionOntology:Food_supplement ;
+                                                     nutritionOntology:hasNutrient nutritionOntology:Vitamina_A ,
+                                                                                   nutritionOntology:Vitamina_B1 ,
+                                                                                   nutritionOntology:Vitamina_B12 ,
+                                                                                   nutritionOntology:Vitamina_B3 ,
+                                                                                   nutritionOntology:Vitamina_B5 ,
+                                                                                   nutritionOntology:Vitamina_B6 ,
+                                                                                   nutritionOntology:Vitamina_C ,
+                                                                                   nutritionOntology:Vitamina_D ,
+                                                                                   nutritionOntology:Vitamina_E ,
+                                                                                   nutritionOntology:Vitamina_K ;
+                                                     nutritionOntology:relatedTo nutritionOntology:omega-3_superpotenti_capsule_molli ;
+                                                     nutritionOntology:takeWith nutritionOntology:Acqua ;
+                                                     nutritionOntology:cost 17.49 ;
+                                                     nutritionOntology:dailyAssumption 3 ;
+                                                     nutritionOntology:dose 1 ;
+                                                     nutritionOntology:weight 90 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Creatina
+nutritionOntology:Creatina rdf:type owl:NamedIndividual ;
+                           nutritionOntology:synthesizability "Yes" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Creatina_monoidrato
+nutritionOntology:Creatina_monoidrato rdf:type owl:NamedIndividual ;
+                                      nutritionOntology:hasNutrient nutritionOntology:Creatina ;
+                                      nutritionOntology:relatedTo nutritionOntology:Destrosio ,
+                                                                  nutritionOntology:Proteine_del_siero_del_latte ;
+                                      nutritionOntology:takeWith nutritionOntology:Acqua ,
+                                                                 nutritionOntology:Vitargo ;
+                                      nutritionOntology:cost 3.99 ;
+                                      nutritionOntology:dailyAssumption 2 ;
+                                      nutritionOntology:dose 5 ;
+                                      nutritionOntology:weight 100 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Cromoproteine
+nutritionOntology:Cromoproteine rdf:type owl:NamedIndividual ;
+                                nutritionOntology:hasElement nutritionOntology:Fenilalanina ;
+                                nutritionOntology:enzymes "Yes" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Destrosio
+nutritionOntology:Destrosio rdf:type owl:NamedIndividual ;
+                            nutritionOntology:hasNutrient nutritionOntology:Glicogeno ;
+                            nutritionOntology:relatedTo nutritionOntology:Proteine_del_siero_del_latte ;
+                            nutritionOntology:takeWith nutritionOntology:Acqua ;
+                            nutritionOntology:activationTime 20 ;
+                            nutritionOntology:calories 91 ;
+                            nutritionOntology:carboQuantity 23 ;
+                            nutritionOntology:cost 5.99 ;
+                            nutritionOntology:dailyAssumption 3 ;
+                            nutritionOntology:dose 25 ;
+                            nutritionOntology:fatQuantity 0 ;
+                            nutritionOntology:proteinQuantity 0 ;
+                            nutritionOntology:weight 1000 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Farina_di_quinoa
+nutritionOntology:Farina_di_quinoa rdf:type owl:NamedIndividual ;
+                                   nutritionOntology:hasNutrient nutritionOntology:Fibre ;
+                                   nutritionOntology:takeWith nutritionOntology:Acqua ;
+                                   nutritionOntology:activationTime 40 ;
+                                   nutritionOntology:assumption 1 ;
+                                   nutritionOntology:calories 175 ;
+                                   nutritionOntology:carboQuantity 30 ;
+                                   nutritionOntology:cost 7.99 ;
+                                   nutritionOntology:dietType "Vegano" ;
+                                   nutritionOntology:dose 50 ;
+                                   nutritionOntology:fatQuantity 3 ;
+                                   nutritionOntology:proteinQuantity 7 ;
+                                   nutritionOntology:weight 500 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#FasciaDiPrezzoAlta
+nutritionOntology:FasciaDiPrezzoAlta rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#FasciaDiPrezzoBassa
+nutritionOntology:FasciaDiPrezzoBassa rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#FasciaDiPrezzoMedia
+nutritionOntology:FasciaDiPrezzoMedia rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Fenilalanina
+nutritionOntology:Fenilalanina rdf:type owl:NamedIndividual ;
+                               nutritionOntology:synthesizability "No" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Fibre
+nutritionOntology:Fibre rdf:type owl:NamedIndividual ;
+                        nutritionOntology:hasElement nutritionOntology:Cellulosa ,
+                                                     nutritionOntology:Chitina ,
+                                                     nutritionOntology:Inulina ;
+                        nutritionOntology:baseUnity 300 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Fosfoproteine
+nutritionOntology:Fosfoproteine rdf:type owl:NamedIndividual ;
+                                nutritionOntology:enzymes "Yes" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Fruttosio
+nutritionOntology:Fruttosio rdf:type owl:NamedIndividual ;
+                            nutritionOntology:baseUnity 1 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Galattosio
+nutritionOntology:Galattosio rdf:type owl:NamedIndividual ;
+                             nutritionOntology:baseUnity 1 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Glicina
+nutritionOntology:Glicina rdf:type owl:NamedIndividual ;
+                          nutritionOntology:synthesizability "No" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Glicogeno
+nutritionOntology:Glicogeno rdf:type owl:NamedIndividual ;
+                            nutritionOntology:hasElement nutritionOntology:Glucosio ;
+                            nutritionOntology:baseUnity 300 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Glicoproteine
+nutritionOntology:Glicoproteine rdf:type owl:NamedIndividual ;
+                                nutritionOntology:enzymes "Yes" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Globulina
+nutritionOntology:Globulina rdf:type owl:NamedIndividual ;
+                            nutritionOntology:enzymes "No" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Glucosio
+nutritionOntology:Glucosio rdf:type owl:NamedIndividual ;
+                           nutritionOntology:baseUnity 1 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Glutelina
+nutritionOntology:Glutelina rdf:type owl:NamedIndividual ;
+                            nutritionOntology:enzymes "No" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Glutine
+nutritionOntology:Glutine rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Inulina
+nutritionOntology:Inulina rdf:type owl:NamedIndividual ;
+                          nutritionOntology:hasElement nutritionOntology:Fruttosio ,
+                                                       nutritionOntology:Glucosio ;
+                          nutritionOntology:baseUnity 3 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Isoleucina
+nutritionOntology:Isoleucina rdf:type owl:NamedIndividual ;
+                             nutritionOntology:synthesizability "No" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Isotoni
+nutritionOntology:Isotoni rdf:type owl:NamedIndividual ;
+                          nutritionOntology:enzymes "No" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Lattosio
+nutritionOntology:Lattosio rdf:type owl:NamedIndividual ;
+                           nutritionOntology:hasElement nutritionOntology:Galattosio ,
+                                                        nutritionOntology:Glucosio ;
+                           nutritionOntology:baseUnity 2 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Leucina
+nutritionOntology:Leucina rdf:type owl:NamedIndividual ;
+                          nutritionOntology:synthesizability "No" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Lipoproteine
+nutritionOntology:Lipoproteine rdf:type owl:NamedIndividual ;
+                               nutritionOntology:enzymes "Yes" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Lisina
+nutritionOntology:Lisina rdf:type owl:NamedIndividual ;
+                         nutritionOntology:synthesizability "No" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Maltosio
+nutritionOntology:Maltosio rdf:type owl:NamedIndividual ;
+                           nutritionOntology:hasElement nutritionOntology:Glucosio ;
+                           nutritionOntology:baseUnity 2 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Metionina
+nutritionOntology:Metionina rdf:type owl:NamedIndividual ;
+                            nutritionOntology:synthesizability "No" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Nocciole
+nutritionOntology:Nocciole rdf:type owl:NamedIndividual ;
+                           nutritionOntology:hasNutrient nutritionOntology:Acidi_grassi_Monoinsaturi ,
+                                                         nutritionOntology:Acidi_grassi_Polinsaturi ,
+                                                         nutritionOntology:Acidi_grassi_Saturi ,
+                                                         nutritionOntology:Fibre ;
+                           nutritionOntology:calories 650 ;
+                           nutritionOntology:carboQuantity 6 ;
+                           nutritionOntology:consistence "Solid" ;
+                           nutritionOntology:cost 12.99 ;
+                           nutritionOntology:dietType "Vegano" ;
+                           nutritionOntology:fatQuantity 63 ;
+                           nutritionOntology:proteinQuantity 14 ;
+                           nutritionOntology:weight 500 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Olio_di_Cocco
+nutritionOntology:Olio_di_Cocco rdf:type owl:NamedIndividual ;
+                                nutritionOntology:hasNutrient nutritionOntology:Acidi_grassi_Saturi ;
+                                nutritionOntology:consistence "Liquid" ;
+                                nutritionOntology:cost 14.99 ;
+                                nutritionOntology:dietType "Vegano" ;
+                                nutritionOntology:fatQuantity 60 ;
+                                nutritionOntology:weight 500 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Prolamina
+nutritionOntology:Prolamina rdf:type owl:NamedIndividual ;
+                            nutritionOntology:enzymes "No" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Proteine_del_siero_del_latte
+nutritionOntology:Proteine_del_siero_del_latte rdf:type owl:NamedIndividual ;
+                                               nutritionOntology:hasNutrient nutritionOntology:Lattosio ;
+                                               nutritionOntology:relatedTo nutritionOntology:Complesso_Multivitaminico_Completo ,
+                                                                           nutritionOntology:Vitargo ;
+                                               nutritionOntology:takeWith nutritionOntology:Acqua ;
+                                               nutritionOntology:activationTime 20 ;
+                                               nutritionOntology:calories 122 ;
+                                               nutritionOntology:carboQuantity 2 ;
+                                               nutritionOntology:cost 10.99 ;
+                                               nutritionOntology:dailyAssumption 5 ;
+                                               nutritionOntology:dietType "Vegetariano" ;
+                                               nutritionOntology:dose 30 ;
+                                               nutritionOntology:fatQuantity 2 ;
+                                               nutritionOntology:proteinQuantity 24 ;
+                                               nutritionOntology:weight 500 .
+
+[ rdf:type owl:NegativePropertyAssertion ;
+   owl:sourceIndividual nutritionOntology:Proteine_del_siero_del_latte ;
+   owl:assertionProperty nutritionOntology:hasNutrient ;
+   owl:targetIndividual nutritionOntology:Glutine
+ ] .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Proteine_di_albume_in_polvere
+nutritionOntology:Proteine_di_albume_in_polvere rdf:type owl:NamedIndividual ;
+                                                nutritionOntology:hasIngredient nutritionOntology:Albume ;
+                                                nutritionOntology:hasNutrient nutritionOntology:Albumina ;
+                                                nutritionOntology:relatedTo nutritionOntology:Proteine_del_siero_del_latte ;
+                                                nutritionOntology:takeWith nutritionOntology:Acqua ;
+                                                nutritionOntology:activationTime 30 ;
+                                                nutritionOntology:calories 112 ;
+                                                nutritionOntology:carboQuantity 2 ;
+                                                nutritionOntology:cost 14.99 ;
+                                                nutritionOntology:dailyAssumption 3 ;
+                                                nutritionOntology:dietType "Vegetariano" ;
+                                                nutritionOntology:dose 30 ;
+                                                nutritionOntology:fatQuantity 0 ;
+                                                nutritionOntology:proteinQuantity 25 ;
+                                                nutritionOntology:weight 500 .
+
+[ rdf:type owl:NegativePropertyAssertion ;
+   owl:sourceIndividual nutritionOntology:Proteine_di_albume_in_polvere ;
+   owl:assertionProperty nutritionOntology:hasNutrient ;
+   owl:targetIndividual nutritionOntology:Lattosio
+ ] .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Proteine_di_canapa
+nutritionOntology:Proteine_di_canapa rdf:type owl:NamedIndividual ;
+                                     nutritionOntology:hasNutrient nutritionOntology:Fibre ;
+                                     nutritionOntology:relatedTo nutritionOntology:Avena_istantanea ;
+                                     nutritionOntology:takeWith nutritionOntology:Acqua ;
+                                     nutritionOntology:activationTime 30 ;
+                                     nutritionOntology:assumption 1 ;
+                                     nutritionOntology:calories 111 ;
+                                     nutritionOntology:carboQuantity 4 ;
+                                     nutritionOntology:cost 15.99 ;
+                                     nutritionOntology:dietType "Vegano" ;
+                                     nutritionOntology:dose 30 ;
+                                     nutritionOntology:fatQuantity 4 ;
+                                     nutritionOntology:proteinQuantity 14 ;
+                                     nutritionOntology:weight 500 .
+
+[ rdf:type owl:NegativePropertyAssertion ;
+   owl:sourceIndividual nutritionOntology:Proteine_di_canapa ;
+   owl:assertionProperty nutritionOntology:hasNutrient ;
+   owl:targetIndividual nutritionOntology:Glutine
+ ] .
+
+[ rdf:type owl:NegativePropertyAssertion ;
+   owl:sourceIndividual nutritionOntology:Proteine_di_canapa ;
+   owl:assertionProperty nutritionOntology:hasNutrient ;
+   owl:targetIndividual nutritionOntology:Lattosio
+ ] .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Proteine_isolate_di_manzo
+nutritionOntology:Proteine_isolate_di_manzo rdf:type owl:NamedIndividual ;
+                                            nutritionOntology:hasNutrient nutritionOntology:Albumina ,
+                                                                          nutritionOntology:Glicogeno ;
+                                            nutritionOntology:relatedTo nutritionOntology:Albume ;
+                                            nutritionOntology:takeWith nutritionOntology:Acqua ;
+                                            nutritionOntology:activationTime 30 ;
+                                            nutritionOntology:calories 118 ;
+                                            nutritionOntology:carboQuantity 0 ;
+                                            nutritionOntology:cost 12.99 ;
+                                            nutritionOntology:dailyAssumption 3 ;
+                                            nutritionOntology:dietType "Carnivoro" ;
+                                            nutritionOntology:dose 30 ;
+                                            nutritionOntology:fatQuantity 0 ;
+                                            nutritionOntology:proteinQuantity 29 ;
+                                            nutritionOntology:weight 500 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Proteine_vegane_in_polvere
+nutritionOntology:Proteine_vegane_in_polvere rdf:type owl:NamedIndividual ;
+                                             nutritionOntology:hasNutrient nutritionOntology:Fibre ;
+                                             nutritionOntology:relatedTo nutritionOntology:Vitargo ;
+                                             nutritionOntology:takeWith nutritionOntology:Acqua ;
+                                             nutritionOntology:activationTime 30 ;
+                                             nutritionOntology:calories 130 ;
+                                             nutritionOntology:carboQuantity 4 ;
+                                             nutritionOntology:cost 19.99 ;
+                                             nutritionOntology:dailyAssumption 3 ;
+                                             nutritionOntology:dietType "Vegano" ;
+                                             nutritionOntology:dose 35 ;
+                                             nutritionOntology:fatQuantity 2 ;
+                                             nutritionOntology:proteinQuantity 23 ;
+                                             nutritionOntology:weight 500 .
+
+[ rdf:type owl:NegativePropertyAssertion ;
+   owl:sourceIndividual nutritionOntology:Proteine_vegane_in_polvere ;
+   owl:assertionProperty nutritionOntology:hasNutrient ;
+   owl:targetIndividual nutritionOntology:Glutine
+ ] .
+
+[ rdf:type owl:NegativePropertyAssertion ;
+   owl:sourceIndividual nutritionOntology:Proteine_vegane_in_polvere ;
+   owl:assertionProperty nutritionOntology:hasNutrient ;
+   owl:targetIndividual nutritionOntology:Lattosio
+ ] .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Saccarosio
+nutritionOntology:Saccarosio rdf:type owl:NamedIndividual ;
+                             nutritionOntology:hasElement nutritionOntology:Fruttosio ,
+                                                          nutritionOntology:Glucosio ;
+                             nutritionOntology:baseUnity 2 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Sciroppo_zenza_calorie
+nutritionOntology:Sciroppo_zenza_calorie rdf:type owl:NamedIndividual ;
+                                         nutritionOntology:calories 4 ;
+                                         nutritionOntology:carboQuantity 0 ;
+                                         nutritionOntology:consistence "Liquid" ;
+                                         nutritionOntology:cost 5.49 ;
+                                         nutritionOntology:dietType "Vegano" ;
+                                         nutritionOntology:fatQuantity 0 ;
+                                         nutritionOntology:proteinQuantity 0 ;
+                                         nutritionOntology:weight 400 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Scleroprotidi
+nutritionOntology:Scleroprotidi rdf:type owl:NamedIndividual ;
+                                nutritionOntology:enzymes "No" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Serina
+nutritionOntology:Serina rdf:type owl:NamedIndividual ;
+                         nutritionOntology:synthesizability "Yes" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Treonina
+nutritionOntology:Treonina rdf:type owl:NamedIndividual ;
+                           nutritionOntology:synthesizability "No" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Triptofano
+nutritionOntology:Triptofano rdf:type owl:NamedIndividual ;
+                             nutritionOntology:synthesizability "No" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Valina
+nutritionOntology:Valina rdf:type owl:NamedIndividual ;
+                         nutritionOntology:synthesizability "No" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Vitamina_A
+nutritionOntology:Vitamina_A rdf:type owl:NamedIndividual ;
+                             nutritionOntology:solubility "Fat" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Vitamina_B1
+nutritionOntology:Vitamina_B1 rdf:type owl:NamedIndividual ;
+                              nutritionOntology:solubility "Acqua" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Vitamina_B12
+nutritionOntology:Vitamina_B12 rdf:type owl:NamedIndividual ;
+                               nutritionOntology:solubility "Acqua" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Vitamina_B2
+nutritionOntology:Vitamina_B2 rdf:type owl:NamedIndividual ;
+                              nutritionOntology:solubility "Acqua" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Vitamina_B3
+nutritionOntology:Vitamina_B3 rdf:type owl:NamedIndividual ;
+                              nutritionOntology:solubility "Acqua" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Vitamina_B5
+nutritionOntology:Vitamina_B5 rdf:type owl:NamedIndividual ;
+                              nutritionOntology:solubility "Acqua" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Vitamina_B6
+nutritionOntology:Vitamina_B6 rdf:type owl:NamedIndividual ;
+                              nutritionOntology:solubility "Acqua" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Vitamina_B7
+nutritionOntology:Vitamina_B7 rdf:type owl:NamedIndividual ;
+                              nutritionOntology:solubility "Acqua" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Vitamina_B9
+nutritionOntology:Vitamina_B9 rdf:type owl:NamedIndividual ;
+                              nutritionOntology:solubility "Acqua" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Vitamina_C
+nutritionOntology:Vitamina_C rdf:type owl:NamedIndividual ;
+                             nutritionOntology:solubility "Acqua" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Vitamina_D
+nutritionOntology:Vitamina_D rdf:type owl:NamedIndividual ;
+                             nutritionOntology:solubility "Fat" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Vitamina_E
+nutritionOntology:Vitamina_E rdf:type owl:NamedIndividual ;
+                             nutritionOntology:solubility "Fat" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Vitamina_K
+nutritionOntology:Vitamina_K rdf:type owl:NamedIndividual ;
+                             nutritionOntology:solubility "Fat" .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#Vitargo
+nutritionOntology:Vitargo rdf:type owl:NamedIndividual ,
+                                   nutritionOntology:Sport_supplement ;
+                          nutritionOntology:relatedTo nutritionOntology:Aminoacidi_a_catena_ramificata ,
+                                                      nutritionOntology:Creatina_monoidrato ,
+                                                      nutritionOntology:Proteine_del_siero_del_latte ;
+                          nutritionOntology:takeWith nutritionOntology:Acqua ;
+                          nutritionOntology:activationTime 20 ;
+                          nutritionOntology:calories 279 ;
+                          nutritionOntology:carboQuantity 70 ;
+                          nutritionOntology:cost 12.99 ;
+                          nutritionOntology:dailyAssumption 1 ;
+                          nutritionOntology:dose 75 ;
+                          nutritionOntology:fatQuantity 0 ;
+                          nutritionOntology:proteinQuantity 0 ;
+                          nutritionOntology:weight 500 .
+
+
+###  http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology#omega-3_superpotenti_capsule_molli
+nutritionOntology:omega-3_superpotenti_capsule_molli rdf:type owl:NamedIndividual ,
+                                                              nutritionOntology:Food_supplement ;
+                                                     nutritionOntology:hasNutrient nutritionOntology:Acidi_grassi_Essenziali ;
+                                                     nutritionOntology:relatedTo nutritionOntology:Complesso_Multivitaminico_Completo ;
+                                                     nutritionOntology:takeWith nutritionOntology:Acqua ;
+                                                     nutritionOntology:cost 13.99 ;
+                                                     nutritionOntology:dailyAssumption 3 ;
+                                                     nutritionOntology:dose 1 ;
+                                                     nutritionOntology:weight 90 .
+
+
+#################################################################
+#    Rules
+#################################################################
+
+:a rdf:type swrl:Variable .
+
+:c rdf:type swrl:Variable .
+
+:v rdf:type swrl:Variable .
+
+:f rdf:type swrl:Variable .
+
+:fat rdf:type swrl:Variable .
+
+:p rdf:type swrl:Variable .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "gli aminoacidi essenziali sono essenziali per la dieta in quanto l'organismo non riesce a sintetizzarli"^^xsd:string ;
+   rdfs:label "aminoacidi essenziali"^^xsd:string ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate nutritionOntology:Aminoacids ;
+                           swrl:argument1 :a
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                      swrl:propertyPredicate nutritionOntology:synthesizability ;
+                                      swrl:argument1 :a ;
+                                      swrl:argument2 "No"^^xsd:string
+                                    ] ;
+                          rdf:rest rdf:nil
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate nutritionOntology:Essential_aminoacids ;
+                           swrl:argument1 :a
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "gli aminoacini non essenziali sono quelli che l'organismo riesce a sintetizzare"^^xsd:string ;
+   rdfs:label "aminoacidi non essenziali"^^xsd:string ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate nutritionOntology:Aminoacids ;
+                           swrl:argument1 :a
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                      swrl:propertyPredicate nutritionOntology:synthesizability ;
+                                      swrl:argument1 :a ;
+                                      swrl:argument2 "Yes"^^xsd:string
+                                    ] ;
+                          rdf:rest rdf:nil
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate nutritionOntology:Non-essential_aminoacids ;
+                           swrl:argument1 :a
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "i carboidrati semplici contengono al più 2 unità di base"^^xsd:string ;
+   rdfs:label "carboidrati semplici"^^xsd:string ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate nutritionOntology:Carbohydrates ;
+                           swrl:argument1 :c
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                      swrl:propertyPredicate nutritionOntology:baseUnity ;
+                                      swrl:argument1 :c ;
+                                      swrl:argument2 :v
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                 swrl:builtin swrlb:lessThan ;
+                                                 swrl:arguments [ rdf:type rdf:List ;
+                                                                  rdf:first :v ;
+                                                                  rdf:rest [ rdf:type rdf:List ;
+                                                                             rdf:first 3 ;
+                                                                             rdf:rest rdf:nil
+                                                                           ]
+                                                                ]
+                                               ] ;
+                                     rdf:rest rdf:nil
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate nutritionOntology:Simple_carbohydrates ;
+                           swrl:argument1 :c
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "gli omega 3 sono degli integratori alimentari composti da acidi grassi essenziali"^^xsd:string ;
+   rdfs:label "omega 3"^^xsd:string ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate nutritionOntology:Integrator ;
+                           swrl:argument1 :f
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                      swrl:propertyPredicate nutritionOntology:hasNutrient ;
+                                      swrl:argument1 :f ;
+                                      swrl:argument2 :fat
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:ClassAtom ;
+                                                 swrl:classPredicate nutritionOntology:Fats ;
+                                                 swrl:argument1 :fat
+                                               ] ;
+                                     rdf:rest [ rdf:type swrl:AtomList ;
+                                                rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                                            swrl:propertyPredicate nutritionOntology:fatType ;
+                                                            swrl:argument1 :fat ;
+                                                            swrl:argument2 "essenziali"^^xsd:string
+                                                          ] ;
+                                                rdf:rest rdf:nil
+                                              ]
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate nutritionOntology:Omega_3 ;
+                           swrl:argument1 :f
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "i cibi che hanno un basso contenuto di calorie tra i valori nutrizionali sono cibi zero calorici"^^xsd:string ;
+   rdfs:label "cibi senza calorie"^^xsd:string ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate nutritionOntology:Food ;
+                           swrl:argument1 :f
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                      swrl:propertyPredicate nutritionOntology:calories ;
+                                      swrl:argument1 :f ;
+                                      swrl:argument2 :c
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                 swrl:builtin swrlb:lessThan ;
+                                                 swrl:arguments [ rdf:type rdf:List ;
+                                                                  rdf:first :c ;
+                                                                  rdf:rest [ rdf:type rdf:List ;
+                                                                             rdf:first 10 ;
+                                                                             rdf:rest rdf:nil
+                                                                           ]
+                                                                ]
+                                               ] ;
+                                     rdf:rest rdf:nil
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate nutritionOntology:Zero_calories_food ;
+                           swrl:argument1 :f
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "cibi con consistenza liquida"^^xsd:string ;
+   rdfs:label "cibi liquidi"^^xsd:string ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate nutritionOntology:Food ;
+                           swrl:argument1 :f
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                      swrl:propertyPredicate nutritionOntology:consistence ;
+                                      swrl:argument1 :f ;
+                                      swrl:argument2 "Liquid"^^xsd:string
+                                    ] ;
+                          rdf:rest rdf:nil
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate nutritionOntology:LiquidConsistency ;
+                           swrl:argument1 :f
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "cibi con consistenza solida"^^xsd:string ;
+   rdfs:label "cibi solidi"^^xsd:string ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate nutritionOntology:Food ;
+                           swrl:argument1 :f
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                      swrl:propertyPredicate nutritionOntology:consistence ;
+                                      swrl:argument1 :f ;
+                                      swrl:argument2 "Solid"^^xsd:string
+                                    ] ;
+                          rdf:rest rdf:nil
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate nutritionOntology:SolidConsistency ;
+                           swrl:argument1 :f
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "i cibi che hanno costo superiore a 15 euro sono di fascia di prezzo alta"^^xsd:string ;
+   rdfs:label "cibi a prezzo alto"^^xsd:string ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate nutritionOntology:Food ;
+                           swrl:argument1 :f
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                      swrl:propertyPredicate nutritionOntology:cost ;
+                                      swrl:argument1 :f ;
+                                      swrl:argument2 :c
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                 swrl:builtin swrlb:greaterThan ;
+                                                 swrl:arguments [ rdf:type rdf:List ;
+                                                                  rdf:first :c ;
+                                                                  rdf:rest [ rdf:type rdf:List ;
+                                                                             rdf:first 15 ;
+                                                                             rdf:rest rdf:nil
+                                                                           ]
+                                                                ]
+                                               ] ;
+                                     rdf:rest rdf:nil
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate nutritionOntology:hasCost ;
+                           swrl:argument1 :f ;
+                           swrl:argument2 nutritionOntology:FasciaDiPrezzoAlta
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "i cibi che hanno costo superiore a 5 euro e inferiore a 15 sono di fascia di prezzo medio"^^xsd:string ;
+   rdfs:label "cibi a prezzo medio"^^xsd:string ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate nutritionOntology:Food ;
+                           swrl:argument1 :f
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                      swrl:propertyPredicate nutritionOntology:cost ;
+                                      swrl:argument1 :f ;
+                                      swrl:argument2 :c
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                 swrl:builtin swrlb:greaterThan ;
+                                                 swrl:arguments [ rdf:type rdf:List ;
+                                                                  rdf:first :c ;
+                                                                  rdf:rest [ rdf:type rdf:List ;
+                                                                             rdf:first 5 ;
+                                                                             rdf:rest rdf:nil
+                                                                           ]
+                                                                ]
+                                               ] ;
+                                     rdf:rest [ rdf:type swrl:AtomList ;
+                                                rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                            swrl:builtin swrlb:lessThan ;
+                                                            swrl:arguments [ rdf:type rdf:List ;
+                                                                             rdf:first :c ;
+                                                                             rdf:rest [ rdf:type rdf:List ;
+                                                                                        rdf:first 15 ;
+                                                                                        rdf:rest rdf:nil
+                                                                                      ]
+                                                                           ]
+                                                          ] ;
+                                                rdf:rest rdf:nil
+                                              ]
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate nutritionOntology:hasCost ;
+                           swrl:argument1 :f ;
+                           swrl:argument2 nutritionOntology:FasciaDiPrezzoMedia
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "i cibi che hanno costo inferiore a 5 euro sono di fascia di prezzo bassa"^^xsd:string ;
+   rdfs:label "cibi a prezzo basso"^^xsd:string ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate nutritionOntology:Food ;
+                           swrl:argument1 :f
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                      swrl:propertyPredicate nutritionOntology:cost ;
+                                      swrl:argument1 :f ;
+                                      swrl:argument2 :c
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                 swrl:builtin swrlb:lessThan ;
+                                                 swrl:arguments [ rdf:type rdf:List ;
+                                                                  rdf:first :c ;
+                                                                  rdf:rest [ rdf:type rdf:List ;
+                                                                             rdf:first 5 ;
+                                                                             rdf:rest rdf:nil
+                                                                           ]
+                                                                ]
+                                               ] ;
+                                     rdf:rest rdf:nil
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate nutritionOntology:hasCost ;
+                           swrl:argument1 :f ;
+                           swrl:argument2 nutritionOntology:FasciaDiPrezzoBassa
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "gli integratori che hanno costo superiore a 15 euro sono di fascia di prezzo alta"^^xsd:string ;
+   rdfs:label "integratori a prezzo alto"^^xsd:string ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate nutritionOntology:Integrator ;
+                           swrl:argument1 :f
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                      swrl:propertyPredicate nutritionOntology:cost ;
+                                      swrl:argument1 :f ;
+                                      swrl:argument2 :c
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                 swrl:builtin swrlb:greaterThan ;
+                                                 swrl:arguments [ rdf:type rdf:List ;
+                                                                  rdf:first :c ;
+                                                                  rdf:rest [ rdf:type rdf:List ;
+                                                                             rdf:first 15 ;
+                                                                             rdf:rest rdf:nil
+                                                                           ]
+                                                                ]
+                                               ] ;
+                                     rdf:rest rdf:nil
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate nutritionOntology:hasCost ;
+                           swrl:argument1 :f ;
+                           swrl:argument2 nutritionOntology:FasciaDiPrezzoAlta
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "gli integratori che hanno costo superiore a 5 euro e inferiore a 15 sono di fascia di prezzo medio"^^xsd:string ;
+   rdfs:label "integratori a prezzo medio"^^xsd:string ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate nutritionOntology:Integrator ;
+                           swrl:argument1 :f
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                      swrl:propertyPredicate nutritionOntology:cost ;
+                                      swrl:argument1 :f ;
+                                      swrl:argument2 :c
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                 swrl:builtin swrlb:greaterThan ;
+                                                 swrl:arguments [ rdf:type rdf:List ;
+                                                                  rdf:first :c ;
+                                                                  rdf:rest [ rdf:type rdf:List ;
+                                                                             rdf:first 5 ;
+                                                                             rdf:rest rdf:nil
+                                                                           ]
+                                                                ]
+                                               ] ;
+                                     rdf:rest [ rdf:type swrl:AtomList ;
+                                                rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                            swrl:builtin swrlb:lessThan ;
+                                                            swrl:arguments [ rdf:type rdf:List ;
+                                                                             rdf:first :c ;
+                                                                             rdf:rest [ rdf:type rdf:List ;
+                                                                                        rdf:first 15 ;
+                                                                                        rdf:rest rdf:nil
+                                                                                      ]
+                                                                           ]
+                                                          ] ;
+                                                rdf:rest rdf:nil
+                                              ]
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate nutritionOntology:hasCost ;
+                           swrl:argument1 :f ;
+                           swrl:argument2 nutritionOntology:FasciaDiPrezzoMedia
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "gli integratori che hanno costo inferiore a 5 euro sono a basso prezzo"^^xsd:string ;
+   rdfs:label "integratori a prezzo basso"^^xsd:string ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate nutritionOntology:Integrator ;
+                           swrl:argument1 :f
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                      swrl:propertyPredicate nutritionOntology:cost ;
+                                      swrl:argument1 :f ;
+                                      swrl:argument2 :c
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                 swrl:builtin swrlb:lessThan ;
+                                                 swrl:arguments [ rdf:type rdf:List ;
+                                                                  rdf:first :c ;
+                                                                  rdf:rest [ rdf:type rdf:List ;
+                                                                             rdf:first 5 ;
+                                                                             rdf:rest rdf:nil
+                                                                           ]
+                                                                ]
+                                               ] ;
+                                     rdf:rest rdf:nil
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate nutritionOntology:hasCost ;
+                           swrl:argument1 :f ;
+                           swrl:argument2 nutritionOntology:FasciaDiPrezzoBassa
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "le proteine semplici cono complessi organici che contengono solo aminoacidi"^^xsd:string ;
+   rdfs:label "proteine semplici"^^xsd:string ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate nutritionOntology:Proteins ;
+                           swrl:argument1 :p
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                      swrl:propertyPredicate nutritionOntology:enzymes ;
+                                      swrl:argument1 :p ;
+                                      swrl:argument2 "No"^^xsd:string
+                                    ] ;
+                          rdf:rest rdf:nil
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate nutritionOntology:Simple_protein ;
+                           swrl:argument1 :p
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "le proteine coniugate sono composti organici che oltre agli aminoacidi contengono enzimi"^^xsd:string ;
+   rdfs:label "proteine coniugate"^^xsd:string ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate nutritionOntology:Proteins ;
+                           swrl:argument1 :p
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                      swrl:propertyPredicate nutritionOntology:enzymes ;
+                                      swrl:argument1 :p ;
+                                      swrl:argument2 "Yes"^^xsd:string
+                                    ] ;
+                          rdf:rest rdf:nil
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate nutritionOntology:conjugated_protein ;
+                           swrl:argument1 :p
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "le vitamine idrosolubili hanno solubilità in acqua"^^xsd:string ;
+   rdfs:label "vitamine idrosolubili"^^xsd:string ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate nutritionOntology:Vitamins ;
+                           swrl:argument1 :v
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                      swrl:propertyPredicate nutritionOntology:solubility ;
+                                      swrl:argument1 :v ;
+                                      swrl:argument2 "Acqua"^^xsd:string
+                                    ] ;
+                          rdf:rest rdf:nil
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate nutritionOntology:Hydrosolubil ;
+                           swrl:argument1 :v
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "le vitamine liposolubili sono vitamine che hanno solubilità nei grassi"^^xsd:string ;
+   rdfs:label "vitamine liposolubili"^^xsd:string ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate nutritionOntology:Vitamins ;
+                           swrl:argument1 :v
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                      swrl:propertyPredicate nutritionOntology:solubility ;
+                                      swrl:argument1 :v ;
+                                      swrl:argument2 "Fat"^^xsd:string
+                                    ] ;
+                          rdf:rest rdf:nil
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate nutritionOntology:Liposolubil ;
+                           swrl:argument1 :v
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi

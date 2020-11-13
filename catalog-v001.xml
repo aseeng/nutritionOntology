@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=2" prefer="public" xml:base="">
+        <uri id="Automatically generated entry, Timestamp=1605260923241" name="http://www.ontologydesignpatterns.org/cp/owl/bag.owl" uri="bag.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1605260923241" name="http://www.semanticweb.org/aseeng/ontologies/2020/1/nutritionOntology" uri="nutritionOntology.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1605260923241" name="http://www.semanticweb.org/aseeng/ontologies/Inferred.owl" uri="inferred.owl"/>
+    </group>
+</catalog>
